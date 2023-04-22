@@ -16,32 +16,18 @@
     (:predicates ;todo: define predicates here
         (hot_drink ?d -drink) 
         (cold_drink ?d -drink)
+        (served ?d -drink)
 
         (barista ?r -robot)
         (Waiter ?r -robot)
+        (holding_tray ?r -robot)
 
-        (table ?t -location)
-        (bar ?l - location)
-
-        (Customer_at_table ?c - property)
-        (Table_cleaned ?l - location)
-
-        (HDt ?l - property)
-        (CDt ?l - property)
-
-        (holding ?r - property)
-        (holding_tray ?r - property)
-        (served ?d -drink)
+        (bar ?t -table)
         (cleaned ?t -table)
 
 
-        ;HDt: Hot drinks on the table x (property of the table) numerative 
-
-        ;CDt: Cold drinks on the table x (property of the table) numerative 
-
-        ;holding (a drink) numerative (number of drinks we’re holding) 
-
-        ;holding tray 
+        ; to check
+        (Customer_at_table ?c - property)
     )
 
 
@@ -58,6 +44,9 @@
         (y_max ?t -table)
 
         (t_dim ?t)
+        (holding ?r -robot)
+        (HDt ?l - property)
+        (CDt ?l - property)
     )
 
     ;define actions here
