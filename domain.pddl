@@ -25,7 +25,6 @@
         (bar ?t -table)
         (cleaned ?t -table)
 
-
         ; to check
         (Customer_at_table ?c - property)
     )
@@ -132,15 +131,14 @@
         :effect (increase (x ?r) 1)
     )
 
-    (:event Served_drink
-        :parameters (?d -drink) (?t -table)
-        :precondition (and (not (bar ?t)) (or (HDT))
+    ;(:event Served_drink
+        ;:parameters (?d -drink) (?t -table)
+        ;:precondition (and (not (bar ?t)) (or (HDT))
             ; trigger condition
-        )
-        :effect (and
+        ;)
+        ;:effect (and
             ; discrete effect(s)
-        )
-    )
+        ;)
+    ;)
     
 )
-d_on_t ?d ?t
