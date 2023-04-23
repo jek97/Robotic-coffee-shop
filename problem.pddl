@@ -20,8 +20,6 @@
         wr -robot ;waiter robot
         br -robot ;barista robot
 
-        bound -bound
-
 	)
 
     (:init
@@ -60,10 +58,10 @@
         (= (x wr) 1) ; we suppose the waiter initially at the bar
         (= (y wr) 4)
 
-        (= (x_min bound) 0)
-        (= (y_min bound) 0)
-        (= (x_max bound) 3)
-        (= (y_max bound) 5)
+        (= (x_min) 0)
+        (= (y_min) 0)
+        (= (x_max) 3)
+        (= (y_max) 5)
     
     )
 
