@@ -35,6 +35,8 @@
 
         ; general of the assignment
         (Waiter wr)
+        ;(not (busy wr))
+        ;(not (busy br))
         (bar b)
         (= (holding wr) 0) ; we suppose the waiter initially with the greppers free
         
@@ -62,6 +64,14 @@
         (= (y_min) 0)
         (= (x_max) 3)
         (= (y_max) 5)
+
+        ;(p_h_d_C ?d -drink ?t -table) ;prepare hot drink counter
+        (= (p_c_d_C d1 b) 0)
+        (= (p_c_d_C d2 b) 0)
+        (= (c_C wr t3) 0)
+        (= (c_C wr t4) 0)
+        (= (mf_C wr) 0)
+        (= (ms_C wr) 0)
     
     )
 
