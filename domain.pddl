@@ -26,7 +26,7 @@
         (drink_holded ?d -drink ?r -robot)
 
         ; flags for switching from durative actions to actions-processes 
-        (p_h_d ?d -drink ?t -table) ;prepare hot drink flag
+        (p_h_d_F ?d -drink ?t -table) ;prepare hot drink flag
 
     )
 
@@ -45,29 +45,40 @@
 
         (t_dim ?t -table) ; dimension of the table
         (holding ?r -robot) ; number of drinks holded by the robot
+
+        ;function to control the processes to simulate durative actions
+        (p_h_d_C ?d -drink ?t -table) ;prepare hot drink counter
     )
 
     ;; to enable the robot to move at different speeds in a grid like environment we assume the time unit equal to 2 time unit of the planner
     ; barista actions
-    (:action Prepare_Hot_drinks
+    (:action Hot_drink_Prepare
         :parameters (?d -drink ?r -robot ?t -table)
-        :duration (= ?duration 10)
+        ;:duration (= ?duration 10)
         :precondition (and (hot_drink ?d) (not (waiter ?r)) (bar ?t))
-        :effect (p_h_d ?d ?t)
+        :effect (p_h_d_F ?d ?t)
     )    
-    (:process Hot_drink_ready
-        :parameters ()
-        :precondition (drink_on_table ?d ?t)
-        :effect (and
-            ; continuous effect(s)
-        )
+    (:process Hot_drink_Preparing
+        :parameters (?d -drink ?t -table)
+        :precondition (p_h_d_F ?d ?t)
+        :effect (increase (p_h_d_C ?d ?t) (* #t 1.0))
     )
+    (:event Hot_drink_Prepared
+        :parameters (?d -drink ?t -table)
+        :precondition (and (p_h_d_F ?d ?t) (= (p_h_d_C ?d ?t) 10))
+        :effect (drink_on_table ?d ?t)
+    )
+    (:constraint Hot_drink_Preparing_duration
+        :parameters (?g - generator)
+        :condition (<= (generator_running ?g) (generator_duration))
+    )
+    
     
     
     (:durative-action Prepare_Cold_drinks
         :parameters (?d -drink ?r -robot ?t -table)
-        :duration (= ?duration 6)
-        :condition (over all (and (cold_drink ?d) (not (waiter ?r)) (bar ?t)))
+        ;:duration (= ?duration 6)
+        :precondition (over all (and (cold_drink ?d) (not (waiter ?r)) (bar ?t)))
         :effect (at end (drink_on_table ?d ?t))
     )
     
