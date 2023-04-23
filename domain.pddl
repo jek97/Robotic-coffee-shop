@@ -25,6 +25,9 @@
         (drink_on_table ?d -drink ?t -table)
         (drink_holded ?d -drink ?r -robot)
 
+        ; flags for switching from durative actions to actions-processes 
+        (p_h_d ?d -drink ?t -table) ;prepare hot drink flag
+
     )
 
 
@@ -46,12 +49,20 @@
 
     ;; to enable the robot to move at different speeds in a grid like environment we assume the time unit equal to 2 time unit of the planner
     ; barista actions
-    (:durative-action Prepare_Hot_drinks
+    (:action Prepare_Hot_drinks
         :parameters (?d -drink ?r -robot ?t -table)
         :duration (= ?duration 10)
-        :condition (over all (and (hot_drink ?d) (not (waiter ?r)) (bar ?t))) 
-        :effect (at end (drink_on_table ?d ?t)) 
+        :precondition (and (hot_drink ?d) (not (waiter ?r)) (bar ?t))
+        :effect (p_h_d ?d ?t)
     )    
+    (:process Hot_drink_ready
+        :parameters ()
+        :precondition (drink_on_table ?d ?t)
+        :effect (and
+            ; continuous effect(s)
+        )
+    )
+    
     
     (:durative-action Prepare_Cold_drinks
         :parameters (?d -drink ?r -robot ?t -table)
