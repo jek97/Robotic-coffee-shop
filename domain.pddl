@@ -72,7 +72,7 @@
         :effect (increase (p_h_d_C ?d ?t) (* #t 1.0))
     )
     (:event Hot_drink_Prepared
-        :parameters (?d -drink ?t -table)
+        :parameters (?d -drink ?t -table ?r -robot)
         :precondition (and (p_h_d_F ?d ?t) (= (p_h_d_C ?d ?t) 10))
         :effect (and (drink_on_table ?d ?t) (not (busy ?r)) (assign (p_h_d_C ?d ?t) 0) (not (p_h_d_F ?d ?t)))
     )
@@ -92,7 +92,7 @@
         :effect (increase (p_c_d_C ?d ?t) (* #t 1.0))
     )
     (:event Cold_drink_Prepared
-        :parameters (?d -drink ?t -table)
+        :parameters (?d -drink ?t -table ?r -robot)
         :precondition (and (p_c_d_F ?d ?t) (= (p_c_d_C ?d ?t) 6))
         :effect (and (drink_on_table ?d ?t) (not (busy ?r)) (assign (p_c_d_C ?d ?t) 0) (not (p_c_d_F ?d ?t)))
     )
@@ -136,7 +136,7 @@
     ) 
     ;control
     (:action Put_down_drink
-        :parameters (?r -robot ?t -table)
+        :parameters (?r -robot ?t -table ?d -drink)
         :precondition (and (waiter ?r) (= (x ?r) (x ?t)) (= (y ?r) (y ?t)) (drink_holded ?d ?r) (not (busy ?r)))
         :effect (and (decrease (holding ?r) 1) (not (drink_holded ?d ?r)) (drink_on_table ?d ?t))
     )
@@ -217,7 +217,7 @@
     )
     (:event Moved_up_right_fast
         :parameters (?r -robot)
-        :precondition (and (mf_F ?d) (= (mf_C ?r) 1))
+        :precondition (and (mf_F ?r) (= (mf_C ?r) 1))
         :effect (and (increase (y ?r) 1) (increase (x ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)))
     )  
 
@@ -315,7 +315,7 @@
     )
     (:event Moved_up_right_slow
         :parameters (?r -robot)
-        :precondition (and (ms_F ?d) (= (ms_C ?r) 2))
+        :precondition (and (ms_F ?r) (= (ms_C ?r) 2))
         :effect (and (increase (y ?r) 1) (increase (x ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)))
     )  
 
