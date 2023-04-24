@@ -18,6 +18,7 @@
         (served ?d -drink ?t -table) ;true if the drink d has reached the table t as ordered
 
         (waiter ?r -robot) ; true if the robot is a waiter, false if it's a barista
+        (barista ?r -robot)
         (holding_tray ?r -robot)
 
         (bar ?t -table)
@@ -80,14 +81,14 @@
         :precondition (or (p_h_d_F ?d ?t) (p_c_d_F ?d ?t))
         :effect (increase (p_d_C ?d) (* #t 1.0))
     )
-    (:constraint max_drink_Preparing_duration
-        :parameters (?d -drink ?t -table)
-        :condition (<= (p_d_C ?d) 10)
-    )
+    ;(:constraint max_drink_Preparing_duration
+    ;    :parameters (?d -drink ?t -table)
+    ;    :condition (<= (p_d_C ?d) 10)
+    ;)
 
     (:action Hot_drink_Prepare
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (hot_drink ?d) (not (waiter ?r)) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (bar ?t))
+        :precondition (and (hot_drink ?d) (barista ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (bar ?t))
         :effect (and (p_h_d_F ?d ?t) (assign (p_d_C ?d) 0))
     )    
     (:event Hot_drink_Prepared
@@ -98,7 +99,7 @@
     
     (:action Cold_drink_Prepare
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (cold_drink ?d) (not (waiter ?r)) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (bar ?t))
+        :precondition (and (cold_drink ?d) (barista ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (bar ?t))
         :effect (and (p_c_d_F ?d ?t) (assign (p_d_C ?d) 0))
     )    
     (:event Cold_drink_Prepared

@@ -30,6 +30,7 @@
 
         ;; general of the assignment
         (waiter wr)
+        (barista br)
         (bar b)
         (= (holding wr) 0)
         
@@ -49,7 +50,7 @@
         (= (t_dim t4) 1)
 
         (= (xr wr) 1) 
-        (= (yr wr) 3)
+        (= (yr wr) 4)
 
         (= (xr br) 1) 
         (= (yr br) 4)
@@ -69,7 +70,7 @@
 
 	(:goal
         ;;(and (served d1 t2) (served d2 t2) (clean t3) (clean t4))
-        (holding_tray wr)
+        (drink_on_table d1 b)
         
         
     )
