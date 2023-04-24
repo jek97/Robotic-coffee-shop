@@ -34,7 +34,7 @@
         (not (clean t4))
 
         ; general of the assignment
-        (Waiter wr)
+        (waiter wr)
         (not (waiter br))
         (not (busy wr))
         (not (busy br))
@@ -77,8 +77,8 @@
         (= (y t4) 1)
         (= (t_dim t4) 1)
 
-        (= (x wr) 2) ; we suppose the waiter initially at the bar
-        (= (y wr) 2)
+        (= (x wr) 1) ; we suppose the waiter initially at the bar
+        (= (y wr) 4)
 
         (= (x_min) 0)
         (= (y_min) 0)
@@ -160,8 +160,9 @@
     )
 
 	(:goal
-        ;(served d1 t2) (served d2 t2) (clean t3) (clean t4)
-        (and (= (x wr) 1) (= (y wr) 3))
+        ;(and (served d1 t2) (served d2 t2) (clean t3) (clean t4))
+        (not (holding_tray wr))
+        
         
     )
 )
