@@ -15,14 +15,14 @@
     (:predicates ;define predicates here
         (hot_drink ?d -drink) 
         (cold_drink ?d -drink)
-        ;(served ?d -drink ?t -table) ;true if the drink d has reached the table t as ordered
+        (served ?d -drink ?t -table) ;true if the drink d has reached the table t as ordered
 
         (waiter ?r -robot) ; true if the robot is a waiter, false if it's a barista
         (barista ?r -robot)
         (holding_tray ?r -robot)
 
         (bar ?t -table)
-        ;(clean ?t -table) ; true if the table is clean
+        (clean ?t -table) ; true if the table is clean
         (drink_on_table ?d -drink ?t -table)
         (drink_holded ?d -drink ?r -robot)
 
@@ -30,7 +30,7 @@
         (busy ?r -robot) ; flag to say that the robot is doing a durative action, in such a way it doesn't start a new one in the meanwhile 
         (p_h_d_F ?d -drink ?t -table) ;prepare hot drink flag
         (p_c_d_F ?d -drink ?t -table) ;prepare cold drink flag
-        ;(c_F ?r -robot ?t -table) ;cleaning flag
+        (c_F ?r -robot ?t -table) ;cleaning flag
         ; flag for relate each action with its own event
         (uf ?r)
         (lf ?r)
@@ -70,7 +70,7 @@
         ;function to control the processes to simulate durative actions
         (p_h_d_c ?d -drink ?t -table) ;prepare drink counter
         (p_c_d_c ?d -drink ?t -table) ;prepare drink counter
-        ;(c_C ?r -robot ?t -table) ;cleaning counter
+        (c_C ?r -robot ?t -table) ;cleaning counter
         (m_uf_C ?r -robot) ;moving counter
         (m_urf_C ?r -robot) ;moving counter
         (m_rf_C ?r -robot) ;moving counter
@@ -127,31 +127,21 @@
     )
     
     ; drink serving and cleaning
-    ;(:action Clean_init
-    ;    :parameters (?r -robot ?t -table)
-    ;    :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (not (holding_tray ?r)) (= (holding ?r) 0) (not (clean ?t)))
-    ;    :effect (and (c_F ?r ?t) (assign (c_C ?r ?t) 0))
-    ;)    
-    ;(:process Cleaning
-    ;    :parameters (?r -robot ?t -table)
-    ;    :precondition (c_F ?r ?t)
-    ;    :effect (increase (c_C ?r ?t) (* #t 1.0))
-    ;)
-    ;(:event Cleaned
-    ;    :parameters (?r -robot ?t -table)
-    ;    :precondition (and (c_F ?r ?t) (= (c_C ?r ?t) (* (t_dim ?t) 4 )))
-    ;    :effect (and (clean ?t) (assign (c_C ?r ?t) 0) (not (c_F ?r ?t)))
-    ;)
-    ;(:constraint Cleaning_duration
-    ;    :parameters (?r -robot ?t -table)
-    ;    :condition (<= (p_c_d_C ?r ?t) (* (t_dim ?t) 4 ))
-    ;)
-    
-    ;(:event Drink_served
-    ;    :parameters (?d -drink ?t -table)
-    ;    :precondition (drink_on_table ?d ?t)
-    ;    :effect (served ?d ?t) ; logically it should go also (not (clean ?t)) just to say that if i put a drink on the table then i will need to clean it
-    ;)    
+    (:action Clean_init
+        :parameters (?r -robot ?t -table)
+        :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (not (holding_tray ?r)) (= (holding ?r) 0) (not (clean ?t)))
+        :effect (and (c_F ?r ?t) (assign (c_C ?r ?t) 0))
+    )    
+    (:process Cleaning
+        :parameters (?r -robot ?t -table)
+        :precondition (c_F ?r ?t)
+        :effect (increase (c_C ?r ?t) (* #t 1.0))
+    )
+    (:event Cleaned
+        :parameters (?r -robot ?t -table)
+        :precondition (and (c_F ?r ?t) (= (c_C ?r ?t) (* (t_dim ?t) 4 )))
+        :effect (and (clean ?t) (assign (c_C ?r ?t) 0) (not (c_F ?r ?t)))
+    )
 
     ; pick-up, put-down drinks actions module
     (:action Pick_up_drink
@@ -163,7 +153,7 @@
     (:action Put_down_drink
         :parameters (?r -robot ?t -table ?d -drink)
         :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (drink_holded ?d ?r) (not (busy ?r)))
-        :effect (and (decrease (holding ?r) 1) (not (drink_holded ?d ?r)) (drink_on_table ?d ?t))
+        :effect (and (decrease (holding ?r) 1) (not (drink_holded ?d ?r)) (drink_on_table ?d ?t) (served ?d ?t))
     )
     
     (:action Pick_up_tray

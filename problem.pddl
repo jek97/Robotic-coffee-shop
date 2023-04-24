@@ -83,11 +83,11 @@
     )
 
 	(:goal
-        ;;(and (served d1 t2) (served d2 t2) (clean t3) (clean t4)) ;problem one goal
+        (and (served d1 t2) (served d2 t2) (clean t3) (clean t4)) ;problem one goal
         ;(and (= (xr wr) 1) (= (yr wr) 4)) ; to test the moving actions
         ;(and (= (xr wr) 1) (= (yr wr) 4) (holding_tray wr)) ; moving actions and holding tray
-        (and (= (xr wr) 1) (= (yr wr) 4) (holding_tray wr) (drink_on_table d2 t1))
-        
+        ;(and (= (xr wr) 1) (= (yr wr) 4) (holding_tray wr) (drink_on_table d2 t1)) ; to test motion, pick up put down both tray and drinks
+        ;(and (= (xr wr) 1) (= (yr wr) 4) (holding_tray wr) (drink_on_table d2 t1) (served d1 t2))
         
     )
 )
