@@ -78,7 +78,10 @@
         (= (t_dim t4) 1)
 
         (= (xr wr) 1) ; we suppose the waiter initially at the bar
-        (= (yr wr) 4)
+        (= (yr wr) 3)
+
+        (= (xr br) 1) ; we suppose the waiter initially at the bar
+        (= (yr br) 4)
 
         (= (x_min) 0)
         (= (y_min) 0)
@@ -109,18 +112,11 @@
         (not (c_F br t3))
         (not (c_F br t4))
 
-        (not (mf_F wr))
-        (not (mf_F br))
-
-        (not (ms_F wr))
-        (not (ms_F br))
-
-        (= (p_c_d_C d1 b) 0)
-        (= (p_c_d_C d2 b) 0)
+        (= (p_d_C d1) 0)
+        (= (p_d_C d2) 0)
         (= (c_C wr t3) 0)
         (= (c_C wr t4) 0)
-        (= (mf_C wr) 0)
-        (= (ms_C wr) 0)
+        (= (m_C wr) 0)
 
         (not (uf wr))
         (not (lf wr))
@@ -161,7 +157,7 @@
 
 	(:goal
         ;(and (served d1 t2) (served d2 t2) (clean t3) (clean t4))
-        (and (= (xr wr) 0) (= (yr wr) 0))
+        (drink_on_table d1 b)
         
         
     )
