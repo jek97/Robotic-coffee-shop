@@ -17,7 +17,7 @@
         (cold_drink ?d -drink)
         (served ?d -drink ?t -table) ;true if the drink d has reached the table t as ordered
 
-        (Waiter ?r -robot) ; true if the robot is a waiter, false if it's a barista
+        (waiter ?r -robot) ; true if the robot is a waiter, false if it's a barista
         (holding_tray ?r -robot)
 
         (bar ?t -table)
@@ -54,11 +54,11 @@
 
 
     (:functions ;define numeric functions here
-        (x ?r -robot) ; position x of the robot (needed only for the waiter)
-        (y ?r -robot) ; position y of the robot (needed only for the waiter)
+        (xr ?r -robot) ; position x of the robot (needed only for the waiter)
+        (yr ?r -robot) ; position y of the robot (needed only for the waiter)
 
-        (x ?t -table) ; position x of the table
-        (y ?t -table) ; position y of the robot
+        (xt ?t -table) ; position x of the table
+        (yt ?t -table) ; position y of the robot
 
         (x_min) ; minimum position x of the room
         (y_min) ; minimum position y of the room
@@ -121,7 +121,7 @@
     ; drink serving and cleaning
     (:action Clean_init
         :parameters (?r -robot ?t -table)
-        :precondition (and (waiter ?r) (= (x ?r) (x ?t)) (= (y ?r) (y ?t)) (not (holding_tray ?r)) (= (holding ?r) 0) (not (clean ?t)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (not (holding_tray ?r)) (= (holding ?r) 0) (not (clean ?t)) (not (busy ?r)))
         :effect (and (c_F ?r ?t) (busy ?r) (assign (c_C ?r ?t) 0))
     )    
     (:process Cleaning
@@ -148,43 +148,43 @@
     ; pick-up, put-down drinks actions module
     (:action Pick_up_drink
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (waiter ?r) (= (x ?r) (x ?t)) (= (y ?r) (y ?t)) (or (and (not (holding_tray ?r)) (= (holding ?r ) 0)) (and (holding_tray ?r) (< (holding ?r) 3))) (drink_on_table ?d ?t) (not (busy ?r)))
+        :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (or (and (not (holding_tray ?r)) (= (holding ?r ) 0)) (and (holding_tray ?r) (< (holding ?r) 3))) (drink_on_table ?d ?t) (not (busy ?r)))
         :effect (and (increase (holding ?r) 1) (drink_holded ?d ?r) (not (drink_on_table ?d ?t)))
     ) 
     ;control
     (:action Put_down_drink
         :parameters (?r -robot ?t -table ?d -drink)
-        :precondition (and (waiter ?r) (= (x ?r) (x ?t)) (= (y ?r) (y ?t)) (drink_holded ?d ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (drink_holded ?d ?r) (not (busy ?r)))
         :effect (and (decrease (holding ?r) 1) (not (drink_holded ?d ?r)) (drink_on_table ?d ?t))
     )
     ;control
     (:action Pick_up_tray
         :parameters (?r -robot ?t -table)
-        :precondition (and (waiter ?r) (= (x ?r) (x ?t)) (= (y ?r) (y ?t)) (bar ?t) (not (holding_tray ?r)) (= (holding ?r) 0) (not (busy ?r)))
+        :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (bar ?t) (not (holding_tray ?r)) (= (holding ?r) 0) (not (busy ?r)))
         :effect (holding_tray ?r)
     )
     ;control
     (:action Put_down_tray
         :parameters (?r -robot ?t -table)
-        :precondition (and (waiter ?r) (= (x ?r) (x ?t)) (= (y ?r) (y ?t)) (bar ?t) (holding_tray ?r) (= (holding ?r) 0) (not (busy ?r)))
+        :precondition (and (waiter ?r) (= (xr ?r) (xt ?t)) (= (yr ?r) (yt ?t)) (bar ?t) (holding_tray ?r) (= (holding ?r) 0) (not (busy ?r)))
         :effect (not (holding_tray ?r))
     )
     
     ; space constraint
     (:constraint X_constraint
         :parameters (?r -robot)
-        :condition (and (<= (x ?r) x_max) (>= (x ?r) x_min))
+        :condition (and (<= (xr ?r) x_max) (>= (xr ?r) x_min))
     ) 
     (:constraint Y_constraint
         :parameters (?r -robot)
-        :condition (and (<= (y ?r) y_max) (>= (y ?r) y_min))
+        :condition (and (<= (yr ?r) y_max) (>= (yr ?r) y_min))
     ) 
 
     ; moving actions module
     ;if the robot is not holding the tray it can move at 2 m/tu
     (:action Move_up_fast_init
         :parameters (?r -robot)
-        :precondition (and (>= (y_max) (+ (y ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (y_max) (+ (yr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (uf ?r))
     )    
     (:process Moving_fast
@@ -195,7 +195,7 @@
     (:event Moved_up_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (uf ?r))
-        :effect (and (increase (y ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (uf ?r)))
+        :effect (and (increase (yr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (uf ?r)))
     )
     (:constraint Moving_fast_duration
         :parameters (?r -robot)
@@ -204,85 +204,85 @@
 
     (:action Move_down_fast_init
         :parameters (?r -robot)
-        :precondition (and (<= (y_min) (- (y ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (y_min) (- (yr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (df ?r))
     )
     (:event Moved_down_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (df ?r))
-        :effect (and (decrease (y ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (df ?r)))
+        :effect (and (decrease (yr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (df ?r)))
     )   
     
     (:action Move_left_fast_init
         :parameters (?r -robot)
-        :precondition (and (<= (x_min) (- (x ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (x_min) (- (xr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (lf ?r))
     )
     (:event Moved_left_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (lf ?r))
-        :effect (and (decrease (x ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (lf ?r)))
+        :effect (and (decrease (xr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (lf ?r)))
     )   
     
     (:action Move_right_fast_init
         :parameters (?r -robot)
-        :precondition (and (>= (x_max) (+ (x ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (x_max) (+ (xr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (rf ?r))
     )
     (:event Moved_right_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (rf ?r))
-        :effect (and (increase (x ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (rf ?r)))
+        :effect (and (increase (xr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (rf ?r)))
     )  
     
     (:action Move_up_right_fast_init
         :parameters (?r -robot)
-        :precondition (and (>= (y_max) (+ (y ?r) 1)) (>= (x_max) (+ (x ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (y_max) (+ (yr ?r) 1)) (>= (x_max) (+ (xr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (urf ?r))
     )
     (:event Moved_up_right_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (urf ?r))
-        :effect (and (increase (y ?r) 1) (increase (x ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (urf ?r)))
+        :effect (and (increase (yr ?r) 1) (increase (xr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (urf ?r)))
     )  
 
     (:action Move_up_left_fast_init
         :parameters (?r -robot)
-        :precondition (and (>= (y_max) (+ (y ?r) 1)) (<= (x_min) (- (x ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (y_max) (+ (yr ?r) 1)) (<= (x_min) (- (xr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (ulf ?r))
     )
     (:event Moved_up_left_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (ulf ?r))
-        :effect (and (increase (y ?r) 1) (decrease (x ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (ulf ?r)))
+        :effect (and (increase (yr ?r) 1) (decrease (xr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (ulf ?r)))
     )  
 
     (:action Move_down_right_fast_init
         :parameters (?r -robot)
-        :precondition (and (<= (y_min) (- (y ?r) 1)) (>= (x_max) (+ (x ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (y_min) (- (yr ?r) 1)) (>= (x_max) (+ (xr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (drf ?r))
     )
     (:event Moved_down_right_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (drf ?r))
-        :effect (and (decrease (y ?r) 1) (increase (x ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (drf ?r)))
+        :effect (and (decrease (yr ?r) 1) (increase (xr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (drf ?r)))
     )  
 
     (:action Move_down_left_fast_init
         :parameters (?r -robot)
-        :precondition (and (<= (y_min) (- (y ?r) 1)) (<= (x_min) (- (x ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (y_min) (- (yr ?r) 1)) (<= (x_min) (- (xr ?r) 1)) (not (holding_tray ?r)) (not (busy ?r)))
         :effect (and (mf_F ?r) (busy ?r) (assign (mf_C ?r) 0) (dlf ?r))
     )
     (:event Moved_down_left_fast
         :parameters (?r -robot)
         :precondition (and (mf_F ?r) (= (mf_C ?r) 1) (dlf ?r))
-        :effect (and (decrease (y ?r) 1) (decrease (x ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (dlf ?r)))
+        :effect (and (decrease (yr ?r) 1) (decrease (xr ?r) 1) (not (busy ?r)) (assign (mf_C ?r) 0) (not (mf_F ?r)) (not (dlf ?r)))
     )  
 
     ; if the robot is holding the tray it can move at 1 m/tu
     (:action Move_up_slow_init
         :parameters (?r -robot)
-        :precondition (and (>= (y_max) (+ (y ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (y_max) (+ (yr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (us ?r))
     )    
     (:process Moving_slow
@@ -293,7 +293,7 @@
     (:event Moved_up_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (us ?r))
-        :effect (and (increase (y ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (us ?r)))
+        :effect (and (increase (yr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (us ?r)))
     )
     (:constraint Moving_slow_duration
         :parameters (?r -robot)
@@ -302,78 +302,78 @@
     
     (:action Move_down_slow_init
         :parameters (?r -robot)
-        :precondition (and (<= (y_min) (- (y ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (y_min) (- (yr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (ds ?r))
     )
     (:event Moved_down_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (ds ?r))
-        :effect (and (decrease (y ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (ds ?r)))
+        :effect (and (decrease (yr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (ds ?r)))
     )   
     
     (:action Move_left_slow_init
         :parameters (?r -robot)
-        :precondition (and (<= (x_min) (- (x ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (x_min) (- (xr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (ls ?r))
     )
     (:event Moved_left_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (ls ?r))
-        :effect (and (decrease (x ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (ls ?r)))
+        :effect (and (decrease (xr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (ls ?r)))
     )   
     
     (:action Move_right_slow_init
         :parameters (?r -robot)
-        :precondition (and (>= (x_max) (+ (x ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (x_max) (+ (xr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (rs ?r))
     )
     (:event Moved_right_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (rs ?r))
-        :effect (and (increase (x ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (rs ?r)))
+        :effect (and (increase (xr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (rs ?r)))
     )  
     
     (:action Move_up_right_slow_init
         :parameters (?r -robot)
-        :precondition (and (>= (y_max) (+ (y ?r) 1)) (>= (x_max) (+ (x ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (y_max) (+ (yr ?r) 1)) (>= (x_max) (+ (xr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (urs ?r))
     )
     (:event Moved_up_right_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (urs ?r))
-        :effect (and (increase (y ?r) 1) (increase (x ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (urs ?r)))
+        :effect (and (increase (yr ?r) 1) (increase (xr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (urs ?r)))
     )  
 
     (:action Move_up_left_slow_init
         :parameters (?r -robot)
-        :precondition (and (>= (y_max) (+ (y ?r) 1)) (<= (x_min) (- (x ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (>= (y_max) (+ (yr ?r) 1)) (<= (x_min) (- (xr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (uls ?r))
     )
     (:event Moved_up_left_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (uls ?r))
-        :effect (and (increase (y ?r) 1) (decrease (x ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (uls ?r)))
+        :effect (and (increase (yr ?r) 1) (decrease (xr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (uls ?r)))
     )  
 
     (:action Move_down_right_slow_init
         :parameters (?r -robot)
-        :precondition (and (<= (y_min) (- (y ?r) 1)) (>= (x_max) (+ (x ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (y_min) (- (yr ?r) 1)) (>= (x_max) (+ (xr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (drs ?r))
     )
     (:event Moved_down_right_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (drs ?r))
-        :effect (and (decrease (y ?r) 1) (increase (x ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r))(not (drs ?r)))
+        :effect (and (decrease (yr ?r) 1) (increase (xr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r))(not (drs ?r)))
     )  
 
     (:action Move_down_left_slow_init
         :parameters (?r -robot)
-        :precondition (and (<= (y_min) (- (y ?r) 1)) (<= (x_min) (- (x ?r) 1)) (holding_tray ?r) (not (busy ?r)))
+        :precondition (and (waiter ?r) (<= (y_min) (- (yr ?r) 1)) (<= (x_min) (- (xr ?r) 1)) (holding_tray ?r) (not (busy ?r)))
         :effect (and (ms_F ?r) (busy ?r) (assign (ms_C ?r) 0) (dls ?r))
     )
     (:event Moved_down_left_slow
         :parameters (?r -robot)
         :precondition (and (ms_F ?r) (= (ms_C ?r) 2) (dls ?r))
-        :effect (and (decrease (y ?r) 1) (decrease (x ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (dls ?r)))
+        :effect (and (decrease (yr ?r) 1) (decrease (xr ?r) 1) (not (busy ?r)) (assign (ms_C ?r) 0) (not (ms_F ?r)) (not (dls ?r)))
     )  
 )

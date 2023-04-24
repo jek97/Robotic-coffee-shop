@@ -40,7 +40,7 @@
         (not (busy br))
         (bar b)
         (= (holding wr) 0) ; we suppose the waiter initially with the greppers free
-        (holding_tray wr)
+        (not (holding_tray wr))
         (not (holding_tray br))
 
         (not (drink_on_table d1 b))
@@ -61,24 +61,24 @@
         (not (drink_holded d2 br))
         
         ; positions and dimensions
-        (= (x b) 1)
-        (= (y b) 4)
+        (= (xt b) 1)
+        (= (yt b) 4)
         ; bar dimension if we need to clean it
-        (= (x t1) 1)
-        (= (y t1) 2)
+        (= (xt t1) 1)
+        (= (yt t1) 2)
         (= (t_dim t1) 1)
-        (= (x t2) 2)
-        (= (y t2) 2)
+        (= (xt t2) 2)
+        (= (yt t2) 2)
         (= (t_dim t2) 1)
-        (= (x t3) 1)
-        (= (y t3) 1)
+        (= (xt t3) 1)
+        (= (yt t3) 1)
         (= (t_dim t3) 2)
-        (= (x t4) 2)
-        (= (y t4) 1)
+        (= (xt t4) 2)
+        (= (yt t4) 1)
         (= (t_dim t4) 1)
 
-        (= (x wr) 1) ; we suppose the waiter initially at the bar
-        (= (y wr) 4)
+        (= (xr wr) 1) ; we suppose the waiter initially at the bar
+        (= (yr wr) 4)
 
         (= (x_min) 0)
         (= (y_min) 0)
@@ -161,7 +161,7 @@
 
 	(:goal
         ;(and (served d1 t2) (served d2 t2) (clean t3) (clean t4))
-        (not (holding_tray wr))
+        (and (= (xr wr) 0) (= (yr wr) 0))
         
         
     )
