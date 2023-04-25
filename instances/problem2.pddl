@@ -7,6 +7,8 @@
         ;; specific of the problem
 		d1 -drink
         d2 -drink
+        d3 -drink
+        d4 -drink
 
         ;; general of the assignment
         b -table 
@@ -23,9 +25,13 @@
     (:init
         (cold_drink d1)
         (cold_drink d2)
+        (hot_drink d3)
+        (hot_drink d4)
 
-        (clean t1)
+        (clean b)
         (clean t2)
+        (clean t3)
+        (clean t4)
         (bar b)
         (= (xt b) 1)
         (= (yt b) 4)
@@ -77,6 +83,28 @@
         (= (p_h_d_c d2 t2) 0)
         (= (p_h_d_c d2 t3) 0)
         (= (p_h_d_c d2 t4) 0)
+
+        (= (p_c_d_c d3 b) 0)
+        (= (p_c_d_c d3 t1) 0)
+        (= (p_c_d_c d3 t2) 0)
+        (= (p_c_d_c d3 t3) 0)
+        (= (p_c_d_c d3 t4) 0)
+        (= (p_c_d_c d4 b) 0)
+        (= (p_c_d_c d4 t1) 0)
+        (= (p_c_d_c d4 t2) 0)
+        (= (p_c_d_c d4 t3) 0)
+        (= (p_c_d_c d4 t4) 0)
+
+        (= (p_h_d_c d3 b) 0)
+        (= (p_h_d_c d3 t1) 0)
+        (= (p_h_d_c d3 t2) 0)
+        (= (p_h_d_c d3 t3) 0)
+        (= (p_h_d_c d3 t4) 0)
+        (= (p_h_d_c d4 b) 0)
+        (= (p_h_d_c d4 t1) 0)
+        (= (p_h_d_c d4 t2) 0)
+        (= (p_h_d_c d4 t3) 0)
+        (= (p_h_d_c d4 t4) 0)
         
         (= (c_C wr b) 0)
         (= (c_C wr t1) 0)
@@ -126,7 +154,7 @@
     )
 
 	(:goal
-        (and (served d1 t2) (served d2 t2) (clean t3) (clean t4))
+        (and (served d1 t3) (served d2 t3) (served d3 t3) (served d4 t3) (clean t1))
         
     )
 )
