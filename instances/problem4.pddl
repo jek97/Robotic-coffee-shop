@@ -1,5 +1,5 @@
 ;;Luca Sortino, bauyrzhan zhakanov, Giacomo Lugano (jek.lugano@yahoo.com)
-(define (problem instance_2)
+(define (problem instance_4)
 
 (:domain coffee_robot)
 
@@ -9,6 +9,10 @@
         d2 -drink
         d3 -drink
         d4 -drink
+        d5 -drink
+        d6 -drink
+        d7 -drink
+        d8 -drink
 
         ;; general of the assignment
         b -table 
@@ -27,10 +31,14 @@
         (cold_drink d2)
         (hot_drink d3)
         (hot_drink d4)
+        (hot_drink d5)
+        (hot_drink d6)
+        (cold_drink d7)
+        (cold_drink d8)
 
         (clean b)
+        (clean t1)
         (clean t2)
-        (clean t3)
         (clean t4)
         (bar b)
         (= (xt b) 1)
@@ -105,6 +113,50 @@
         (= (p_h_d_c d4 t2) 0)
         (= (p_h_d_c d4 t3) 0)
         (= (p_h_d_c d4 t4) 0)
+
+        (= (p_c_d_c d5 b) 0)
+        (= (p_c_d_c d5 t1) 0)
+        (= (p_c_d_c d5 t2) 0)
+        (= (p_c_d_c d5 t3) 0)
+        (= (p_c_d_c d5 t4) 0)
+        (= (p_c_d_c d6 b) 0)
+        (= (p_c_d_c d6 t1) 0)
+        (= (p_c_d_c d6 t2) 0)
+        (= (p_c_d_c d6 t3) 0)
+        (= (p_c_d_c d6 t4) 0)
+
+        (= (p_h_d_c d5 b) 0)
+        (= (p_h_d_c d5 t1) 0)
+        (= (p_h_d_c d5 t2) 0)
+        (= (p_h_d_c d5 t3) 0)
+        (= (p_h_d_c d5 t4) 0)
+        (= (p_h_d_c d6 b) 0)
+        (= (p_h_d_c d6 t1) 0)
+        (= (p_h_d_c d6 t2) 0)
+        (= (p_h_d_c d6 t3) 0)
+        (= (p_h_d_c d6 t4) 0)
+
+        (= (p_c_d_c d7 b) 0)
+        (= (p_c_d_c d7 t1) 0)
+        (= (p_c_d_c d7 t2) 0)
+        (= (p_c_d_c d7 t3) 0)
+        (= (p_c_d_c d7 t4) 0)
+        (= (p_c_d_c d8 b) 0)
+        (= (p_c_d_c d8 t1) 0)
+        (= (p_c_d_c d8 t2) 0)
+        (= (p_c_d_c d8 t3) 0)
+        (= (p_c_d_c d8 t4) 0)
+
+        (= (p_h_d_c d7 b) 0)
+        (= (p_h_d_c d7 t1) 0)
+        (= (p_h_d_c d7 t2) 0)
+        (= (p_h_d_c d7 t3) 0)
+        (= (p_h_d_c d7 t4) 0)
+        (= (p_h_d_c d8 b) 0)
+        (= (p_h_d_c d8 t1) 0)
+        (= (p_h_d_c d8 t2) 0)
+        (= (p_h_d_c d8 t3) 0)
+        (= (p_h_d_c d8 t4) 0)
         
         (= (c_C wr b) 0)
         (= (c_C wr t1) 0)
@@ -154,7 +206,7 @@
     )
 
 	(:goal
-        (and (served d1 t3) (served d2 t3) (served d3 t3) (served d4 t3) (clean t1))
+        (and (served d1 t1) (served d2 t1) (served d3 t3) (served d4 t3) (served d5 t3) (served d6 t3) (served d7 t4) (served d8 t4) (clean t3))
         
     )
 )

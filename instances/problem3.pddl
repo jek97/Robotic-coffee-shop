@@ -1,5 +1,5 @@
 ;;Luca Sortino, bauyrzhan zhakanov, Giacomo Lugano (jek.lugano@yahoo.com)
-(define (problem instance_2)
+(define (problem instance_3)
 
 (:domain coffee_robot)
 
@@ -23,14 +23,14 @@
 	)
 
     (:init
-        (cold_drink d1)
-        (cold_drink d2)
+        (hot_drink d1)
+        (hot_drink d2)
         (hot_drink d3)
         (hot_drink d4)
 
         (clean b)
+        (clean t1)
         (clean t2)
-        (clean t3)
         (clean t4)
         (bar b)
         (= (xt b) 1)
@@ -154,7 +154,7 @@
     )
 
 	(:goal
-        (and (served d1 t3) (served d2 t3) (served d3 t3) (served d4 t3) (clean t1))
+        (and (served d1 t1) (served d2 t1) (served d3 t4) (served d4 t4) (clean t3))
         
     )
 )
