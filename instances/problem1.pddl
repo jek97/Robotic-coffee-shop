@@ -21,112 +21,60 @@
 	)
 
     (:init
-        (cold_drink d1)
-        (cold_drink d2)
+        ;predicates
+        (waiter wr) ; T if the robot is a waiter, F if is a barista
 
-        (clean t1)
-        (clean t2)
-        (bar b)
-        (= (xt b) 1)
-        (= (yt b) 4)
-        (= (t_dim b) 2)
-        (= (xt t1) 1)
-        (= (yt t1) 2)
-        (= (t_dim t1) 1)
-        (= (xt t2) 2)
-        (= (yt t2) 2)
-        (= (t_dim t2) 1)
-        (= (xt t3) 1)
-        (= (yt t3) 1)
-        (= (t_dim t3) 2)
-        (= (xt t4) 2)
-        (= (yt t4) 1)
-        (= (t_dim t4) 1)
-        (= (x_min) 0)
-        (= (y_min) 0)
-        (= (x_max) 3)
-        (= (y_max) 5)
-
-        (waiter wr)
-        (barista br)
-        (= (holding wr) 0)
-        (= (holding br) 0)
-        (= (xr wr) 1) 
-        (= (yr wr) 4)
-        (= (xr br) 1) 
-        (= (yr br) 4)
-
-        (= (p_c_d_c d1 b) 0)
-        (= (p_c_d_c d1 t1) 0)
-        (= (p_c_d_c d1 t2) 0)
-        (= (p_c_d_c d1 t3) 0)
-        (= (p_c_d_c d1 t4) 0)
-        (= (p_c_d_c d2 b) 0)
-        (= (p_c_d_c d2 t1) 0)
-        (= (p_c_d_c d2 t2) 0)
-        (= (p_c_d_c d2 t3) 0)
-        (= (p_c_d_c d2 t4) 0)
-
-        (= (p_h_d_c d1 b) 0)
-        (= (p_h_d_c d1 t1) 0)
-        (= (p_h_d_c d1 t2) 0)
-        (= (p_h_d_c d1 t3) 0)
-        (= (p_h_d_c d1 t4) 0)
-        (= (p_h_d_c d2 b) 0)
-        (= (p_h_d_c d2 t1) 0)
-        (= (p_h_d_c d2 t2) 0)
-        (= (p_h_d_c d2 t3) 0)
-        (= (p_h_d_c d2 t4) 0)
+        (bar b) ; T if the table is the bar
+        (clean t1) ; T if the table is clean
+        (clean t2) ; T if the table is clean
         
-        (= (c_C wr b) 0)
-        (= (c_C wr t1) 0)
-        (= (c_C wr t2) 0)
-        (= (c_C wr t3) 0)
-        (= (c_C wr t4) 0)
-        (= (c_C br b) 0)
-        (= (c_C br t1) 0)
-        (= (c_C br t2) 0)
-        (= (c_C br t3) 0)
-        (= (c_C br t4) 0)
+        (robot_pos wr b) ; robot position, thet table at which the robot is
+        (robot_pos br b) ; robot position, thet table at which the robot is
 
-        (= (m_uf_C wr) 0)
-        (= (m_urf_C wr) 0)
-        (= (m_rf_C wr) 0) 
-        (= (m_drf_C wr) 0)
-        (= (m_df_C wr) 0) 
-        (= (m_dlf_C wr) 0)
-        (= (m_lf_C wr) 0) 
-        (= (m_ulf_C wr) 0)
-        (= (m_us_C wr) 0) 
-        (= (m_urs_C wr) 0)
-        (= (m_rs_C wr) 0) 
-        (= (m_drs_C wr) 0)
-        (= (m_ds_C wr) 0) 
-        (= (m_dls_C wr) 0)
-        (= (m_ls_C wr) 0) 
-        (= (m_uls_C wr) 0) 
+        ;functions
+        (= (dist b t1) 2) ; distance between two tables
+        (= (dist b t2) 2) ; distance between two tables
+        ;(= (dist b t3) 1000) ; distance between two tables
+        ;(= (dist b t4) 1000) ; distance between two tables
 
-        (= (m_uf_C br) 0)
-        (= (m_urf_C br) 0)
-        (= (m_rf_C br) 0) 
-        (= (m_drf_C br) 0)
-        (= (m_df_C br) 0) 
-        (= (m_dlf_C br) 0)
-        (= (m_lf_C br) 0) 
-        (= (m_ulf_C br) 0)
-        (= (m_us_C br) 0) 
-        (= (m_urs_C br) 0)
-        (= (m_rs_C br) 0) 
-        (= (m_drs_C br) 0)
-        (= (m_ds_C br) 0) 
-        (= (m_dls_C br) 0)
-        (= (m_ls_C br) 0) 
-        (= (m_uls_C br) 0)     
+        (= (dist t1 b) 2) ; distance between two tables
+        (= (dist t1 t2) 1) ; distance between two tables
+        (= (dist t1 t3) 1) ; distance between two tables
+        (= (dist t1 t4) 1) ; distance between two tables
+
+        (= (dist t2 b) 2) ; distance between two tables
+        (= (dist t2 t1) 1) ; distance between two tables
+        (= (dist t2 t3) 1) ; distance between two tables
+        (= (dist t2 t4) 1) ; distance between two tables
+
+        ;(= (dist t3 b) 1000) ; distance between two tables
+        (= (dist t3 t1) 1) ; distance between two tables
+        (= (dist t3 t2) 1) ; distance between two tables
+        (= (dist t3 t3) 1) ; distance between two tables
+
+        ;(= (dist t4 b) 1000) ; distance between two tables
+        (= (dist t4 t1) 1) ; distance between two tables
+        (= (dist t4 t2) 1) ; distance between two tables
+        (= (dist t4 t3) 1) ; distance between two tables
+
+        (= (tim wr) 150) ; valeu of the timer
+        (= (tim br) 150) ; valeu of the timer
+
+        (= (t_dim t1) 1) ; dimension of the table
+        (= (t_dim t2) 1) ; dimension of the table
+        (= (t_dim t3) 2) ; dimension of the table
+        (= (t_dim t4) 1) ; dimension of the table
+
+        (= (holding wr) 0) ; number of drinks holded by the robot
+        (= (holding br) 0) ; number of drinks holded by the robot
     
     )
 
 	(:goal
-        (and (served d1 t2) (served d2 t2) (clean t3) (clean t4))
-        
+        ;(and (drink_on_table d1 t2) (drink_on_table d2 t2) (clean t3) (clean t4))
+        ;(robot_pos wr t4) ;moving work
+        ;(drink_on_table d1 b) ; drink prepare work
+        ;(and (drink_on_table d1 t2) (clean t3) (clean t4) ) ; drink and clean togethwe work
+        (and (drink_on_table d1 t2) (drink_on_table d2 b))
     )
 )
