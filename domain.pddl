@@ -52,8 +52,8 @@
     )    
     (:event Hot_drink_Prepared ; event to conclude the action
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (= (tim ?r) 10) (drink_n ?d) (robot_pos ?r ?t))
-        :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150))
+        :precondition (and (= (tim ?r) 10) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
+        :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
     )
 
     (:action Cold_drink_Prepare ; initial action
@@ -63,20 +63,20 @@
     )    
     (:event Cold_drink_Prepared ; event to conclude the action
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (= (tim ?r) 17) (drink_n ?d) (robot_pos ?r ?t))
-        :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150))
+        :precondition (and (= (tim ?r) 17) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
+        :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
     )
     
     ; move actions
     (:action Move_slow
         :parameters (?t1 -table ?r -robot ?t2 -table)
-        :precondition (and (waiter ?r) (robot_pos ?r ?t1) (not (holding_tray ?r)) (>= (tim ?r) 100))
+        :precondition (and (waiter ?r) (robot_pos ?r ?t1) (holding_tray ?r) (>= (tim ?r) 100))
         :effect (and (assign (tim ?r) 18) (to ?t2))
     )  
     (:event Moved_slow
         :parameters (?t1 -table ?r -robot ?t2 -table)
         :precondition (and (= (tim ?r) (+ (* (dist ?t1 ?t2) 2) 18)) (to ?t2) (robot_pos ?r ?t1))
-        :effect (and (robot_pos ?r ?t2) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
+        :effect (and (robot_pos ?r ?t2) (not (to ?t2)) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
     )
 
     (:action Move_fast
@@ -87,7 +87,7 @@
     (:event Moved_fast
         :parameters (?t1 -table ?r -robot ?t2 -table)
         :precondition (and (= (tim ?r) (+ (dist ?t1 ?t2) 23)) (to ?t2) (robot_pos ?r ?t1))
-        :effect (and (robot_pos ?r ?t2) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
+        :effect (and (robot_pos ?r ?t2) (not (to ?t2)) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
     )
 
     ; pick-up, put-down drinks and tray

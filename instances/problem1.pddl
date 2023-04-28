@@ -34,8 +34,8 @@
         ;functions
         (= (dist b t1) 2) ; distance between two tables
         (= (dist b t2) 2) ; distance between two tables
-        ;(= (dist b t3) 1000) ; distance between two tables
-        ;(= (dist b t4) 1000) ; distance between two tables
+        (= (dist b t3) 3) ; distance between two tables
+        (= (dist b t4) 3) ; distance between two tables
 
         (= (dist t1 b) 2) ; distance between two tables
         (= (dist t1 t2) 1) ; distance between two tables
@@ -47,12 +47,12 @@
         (= (dist t2 t3) 1) ; distance between two tables
         (= (dist t2 t4) 1) ; distance between two tables
 
-        ;(= (dist t3 b) 1000) ; distance between two tables
+        (= (dist t3 b) 3) ; distance between two tables
         (= (dist t3 t1) 1) ; distance between two tables
         (= (dist t3 t2) 1) ; distance between two tables
         (= (dist t3 t3) 1) ; distance between two tables
 
-        ;(= (dist t4 b) 1000) ; distance between two tables
+        (= (dist t4 b) 3) ; distance between two tables
         (= (dist t4 t1) 1) ; distance between two tables
         (= (dist t4 t2) 1) ; distance between two tables
         (= (dist t4 t3) 1) ; distance between two tables
