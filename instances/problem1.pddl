@@ -71,10 +71,6 @@
     )
 
 	(:goal
-        ;(and (drink_on_table d1 t2) (drink_on_table d2 t2) (clean t3) (clean t4))
-        ;(robot_pos wr t4) ;moving work
-        ;(drink_on_table d1 b) ; drink prepare work
-        ;(and (drink_on_table d1 t2) (clean t3) (clean t4) ) ; drink and clean togethwe work
-        (and (drink_on_table d1 t2) (drink_on_table d2 b))
+        (and (drink_on_table d1 t2) (drink_on_table d2 t2) (clean t3) (clean t4))
     )
 )
