@@ -80,6 +80,7 @@
 
         (= (holding wr) 0) ; number of drinks holded by the robot
         (= (holding br) 0) ; number of drinks holded by the robot
+        
     )
 
 	(:goal

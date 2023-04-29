@@ -68,7 +68,7 @@
         :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
     )
     
-    ; move actions
+    ; move actions    
     (:action Move_slow
         :parameters (?t1 -table ?r -robot ?t2 -table)
         :precondition (and (waiter ?r) (robot_pos ?r ?t1) (holding_tray ?r) (>= (tim ?r) 100))
