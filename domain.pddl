@@ -35,8 +35,9 @@
 
     ;; to enable the robot to move at different speeds in our problem we assume the time unit equal to 2 time unit of the planner
     ; timer: instead of creating a process for each durative action i create a unique timer for each robot, based on the valeu assigned by the action it will last for a different time and launch a different event
-    ; in particular 0< t <=10 prepare_hot_drink, 11< t <=17 prepare_cold_drink, 18< t <=22 move_slow, 23< t <=25 move_fast, 26< t <=34 clean expressed in tu of the planner (considering the maximum time of each action of each action, the time unit we are considering = 2 tu of the planner) 
+    ; in particular 0< t <=10 prepare_hot_drink, 21< t <=27 prepare_cold_drink, 38< t <=42 move_slow, 53< t <=55 move_fast, 66< t <=74 clean expressed in tu of the planner (considering the maximum time of each action of each action, the time unit we are considering = 2 tu of the planner) 
     ; we also use the timer valeu tim as a busy flag of the robot, so if tim > 100 the robot is not busy
+    
     ; preparing drink actions
     (:process Timer
         :parameters (?r -robot)
@@ -52,18 +53,18 @@
     )    
     (:event Hot_drink_Prepared ; event to conclude the action
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (= (tim ?r) 10) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
+        :precondition (and (and (>= (tim ?r) 10) (<= (tim ?r) 20))  (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
         :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
     )
 
     (:action Cold_drink_Prepare ; initial action
         :parameters (?d -drink ?r -robot ?t -table)
         :precondition (and (not (hot_drink ?d)) (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
-        :effect (and (assign (tim ?r) 11) (drink_n ?d))
+        :effect (and (assign (tim ?r) 21) (drink_n ?d))
     )    
     (:event Cold_drink_Prepared ; event to conclude the action
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (= (tim ?r) 17) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
+        :precondition (and (and (>= (tim ?r) 27) (<= (tim ?r) 37)) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
         :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
     )
     
@@ -71,22 +72,22 @@
     (:action Move_slow
         :parameters (?t1 -table ?r -robot ?t2 -table)
         :precondition (and (waiter ?r) (robot_pos ?r ?t1) (holding_tray ?r) (>= (tim ?r) 100))
-        :effect (and (assign (tim ?r) 18) (to ?t2))
+        :effect (and (assign (tim ?r) 38) (to ?t2))
     )  
     (:event Moved_slow
         :parameters (?t1 -table ?r -robot ?t2 -table)
-        :precondition (and (= (tim ?r) (+ (* (dist ?t1 ?t2) 2) 18)) (to ?t2) (robot_pos ?r ?t1))
+        :precondition (and (and (>= (tim ?r) (+ (* (dist ?t1 ?t2) 2) 38)) (<= (tim ?r) (+ (* (dist ?t1 ?t2) 2) 48))) (to ?t2) (robot_pos ?r ?t1))
         :effect (and (robot_pos ?r ?t2) (not (to ?t2)) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
     )
 
     (:action Move_fast
         :parameters (?t1 -table ?r -robot ?t2 -table)
         :precondition (and (waiter ?r) (robot_pos ?r ?t1) (not (holding_tray ?r)) (>= (tim ?r) 100))
-        :effect (and (assign (tim ?r) 23) (to ?t2))
+        :effect (and (assign (tim ?r) 53) (to ?t2))
     )  
     (:event Moved_fast
         :parameters (?t1 -table ?r -robot ?t2 -table)
-        :precondition (and (= (tim ?r) (+ (dist ?t1 ?t2) 23)) (to ?t2) (robot_pos ?r ?t1))
+        :precondition (and (and (>= (tim ?r) (+ (dist ?t1 ?t2) 53)) (<= (tim ?r) (+ (dist ?t1 ?t2) 63))) (to ?t2) (robot_pos ?r ?t1))
         :effect (and (robot_pos ?r ?t2) (not (to ?t2)) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
     )
 
@@ -119,11 +120,11 @@
     (:action Clean
         :parameters (?r -robot ?t -table)
         :precondition (and (waiter ?r) (robot_pos ?r ?t) (not (holding_tray ?r)) (= (holding ?r) 0) (not (clean ?t)))
-        :effect (and (assign (tim ?r) 26))
+        :effect (and (assign (tim ?r) 66))
     )    
     (:event Cleaned
         :parameters (?r -robot ?t -table)
-        :precondition (and (robot_pos ?r ?t) (= (tim ?r) (+ (* (t_dim ?t) 4) 26)))
+        :precondition (and (robot_pos ?r ?t) (and (>= (tim ?r) (+ (* (t_dim ?t) 4) 66)) (<= (tim ?r) (+ (* (t_dim ?t) 4) 76))))
         :effect (and (clean ?t) (assign (tim ?r) 150))
     )  
     
