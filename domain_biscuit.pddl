@@ -115,13 +115,13 @@
     ; pick-up, put-down drinks 
     (:action Pick_up_drink
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (waiter ?r) (robot_pos ?r ?t) (or (and (not (holding_tray ?r)) (= (holding ?r ) 0)) (and (holding_tray ?r) (< (holding ?r) 3))) (drink_on_table ?d ?t) (>= (tim ?r) 100))
+        :precondition (and (waiter ?r) (robot_pos ?r ?t) (bar ?t) (or (and (not (holding_tray ?r)) (= (holding ?r ) 0)) (and (holding_tray ?r) (< (holding ?r) 3))) (drink_on_table ?d ?t) (>= (tim ?r) 100))
         :effect (and (increase (holding ?r) 1) (drink_holded ?d ?r) (not (drink_on_table ?d ?t)))
     ) 
     
     (:action Put_down_drink
         :parameters (?r -robot ?t -table ?d -drink ?bis -biscuit)
-        :precondition (and (waiter ?r) (robot_pos ?r ?t) (drink_holded ?d ?r) (>= (tim ?r) 100))
+        :precondition (and (waiter ?r) (robot_pos ?r ?t) (drink_holded ?d ?r) (not (bar ?t)) (>= (tim ?r) 100))
         :effect (and (decrease (holding ?r) 1) (not (drink_holded ?d ?r)) (drink_on_table ?d ?t) (biscuit_deliver ?bis))
     )
 
