@@ -30,10 +30,14 @@
         ;predicates
         (waiter wr) ; T if the robot is a waiter, F if is a barista
 
-        (hot_drink d5)
-        (hot_drink d6)
-        (hot_drink d7)
-        (hot_drink d8)
+        (= (tim_c d1) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d2) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d3) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d4) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d5) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d6) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d7) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d8) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
 
         (bar b) ; T if the table is the bar
         (clean t1) ; T if the table is clean
@@ -84,7 +88,8 @@
     )
 
 	(:goal
-        (and (drink_on_table d1 t4) (drink_on_table d2 t4) (drink_on_table d3 t1) (drink_on_table d4 t1) (drink_on_table d5 t3) (drink_on_table d6 t3) (drink_on_table d7 t3) (drink_on_table d8 t3) (clean t4))
-        ;(and (drink_on_table d1 t3) (drink_on_table d5 t3) (drink_on_table d6 t3) (clean t4))
+        (and (drink_on_table d1 t4) (drink_on_table d2 t4) (drink_on_table d3 t1) (drink_on_table d4 t1) (drink_on_table d5 t3) (drink_on_table d6 t3) (drink_on_table d7 t3) (drink_on_table d8 t3) (> (tim_c d5) 0) (> (tim_c d6) 0) (> (tim_c d7) 0) (> (tim_c d8) 0)  (clean t4))
+        ;(and (drink_on_table d5 t3) (drink_on_table d1 t4) (> (tim_c d5) 0) (clean t4))
+        
     )
 )

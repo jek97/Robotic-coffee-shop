@@ -11,7 +11,6 @@
     )
 
     (:predicates
-        (hot_drink ?d -drink) ; T is an hot drink, F if is a cold one
         (drink_n ?d -drink) ; to pass the information of which drink we're preparing in the prepare drink between action and event
 
         (waiter ?r -robot) ; T if the robot is a waiter, F if is a barista
@@ -29,6 +28,7 @@
     (:functions 
         (dist ?t -table ?t -table) ; distance between two tables
         (tim ?r -robot) ; valeu of the timer
+        (tim_c ?d -drink) ; valeu of the timer for the drink temperature
         (t_dim ?t -table) ; dimension of the table
         (holding ?r -robot) ; number of drinks holded by the robot
     )
@@ -48,24 +48,31 @@
 
     (:action Hot_drink_Prepare ; initial action
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (hot_drink ?d) (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
+        :precondition (and (= (tim_c ?d) 10) (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
         :effect (and (assign (tim ?r) 0) (drink_n ?d))
     )    
     (:event Hot_drink_Prepared ; event to conclude the action
         :parameters (?d -drink ?r -robot ?t -table)
         :precondition (and (and (>= (tim ?r) 10) (<= (tim ?r) 20))  (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
-        :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
+        :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (assign (tim_c ?d) 8) (not (drink_n ?d)))
     )
 
     (:action Cold_drink_Prepare ; initial action
         :parameters (?d -drink ?r -robot ?t -table)
-        :precondition (and (not (hot_drink ?d)) (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
+        :precondition (and (= (tim_c ?d) 0) (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
         :effect (and (assign (tim ?r) 21) (drink_n ?d))
     )    
     (:event Cold_drink_Prepared ; event to conclude the action
         :parameters (?d -drink ?r -robot ?t -table)
         :precondition (and (and (>= (tim ?r) 27) (<= (tim ?r) 37)) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
         :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
+    )
+    
+    ; cooling down
+    (:process Cooling_down
+        :parameters (?d -drink)
+        :precondition (and (<= (tim_c ?d) 8) (> (tim_c ?d) 0))
+        :effect (decrease (tim_c ?d) (* #t 1.0))
     )
     
     ; move actions    
