@@ -133,6 +133,7 @@
             (waiter ?r) 
             (robot_pos ?r ?t1) 
             (bar ?t1)
+            (not (hot_drink ?d))
             (or 
                 (and (not (holding_tray ?r)) (= (holding ?r) 0)) 
                 (and (holding_tray ?r))
@@ -142,7 +143,7 @@
             (>= (tim ?r) 100)
         )
         :effect (and 
-            (when (drink_on_table ?d ?t2)
+            (when (and (drink_on_table ?d ?t2) (not (bar ?t2)))
                 (and 
                     (increase (holding ?r) 1) 
                     (biscuit_holded ?bis ?r) 

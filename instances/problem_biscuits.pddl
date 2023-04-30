@@ -100,6 +100,6 @@
 
 	(:goal
         ;(and (drink_on_table d1 t4) (drink_on_table d2 t4) (drink_on_table d3 t1) (drink_on_table d4 t1) (drink_on_table d5 t3) (drink_on_table d6 t3) (drink_on_table d7 t3) (drink_on_table d8 t3) (biscuit_on_table bis1 t1) (biscuit_on_table bis2 t1) (biscuit_on_table bis3 t4) (biscuit_on_table bis4 t4) (clean t4))
-        (and (drink_on_table d1 t1) (biscuit_on_table bis1 t1))
+        (and (drink_on_table d1 t4) (biscuit_on_table bis1 t4))
     )
 )
