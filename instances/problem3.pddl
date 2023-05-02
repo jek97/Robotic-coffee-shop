@@ -10,6 +10,9 @@
         d3 -drink
         d4 -drink
 
+        bis1 -biscuit
+        bis2 -biscuit
+
         ;; general of the assignment
         b -table 
         t1 -table
@@ -26,10 +29,13 @@
         ;predicates
         (waiter wr) ; T if the robot is a waiter, F if is a barista
 
-        (hot_drink d1)
-        (hot_drink d2)
-        (hot_drink d3)
-        (hot_drink d4)
+        (= (tim_c d1) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d2) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d3) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d4) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+
+        (biscuit_on_table bis1 b) ; T if the biscuit d is on the table t, initially true with t=bar
+        (biscuit_on_table bis2 b) ; T if the biscuit d is on the table t, initially true with t=bar
 
         (bar b) ; T if the table is the bar
         (clean t1) ; T if the table is clean
@@ -42,8 +48,8 @@
         ;functions
         (= (dist b t1) 2) ; distance between two tables
         (= (dist b t2) 2) ; distance between two tables
-        ;(= (dist b t3) 1000) ; distance between two tables
-        ;(= (dist b t4) 1000) ; distance between two tables
+        (= (dist b t3) 3) ; distance between two tables
+        (= (dist b t4) 3) ; distance between two tables
 
         (= (dist t1 b) 2) ; distance between two tables
         (= (dist t1 t2) 1) ; distance between two tables
@@ -55,12 +61,12 @@
         (= (dist t2 t3) 1) ; distance between two tables
         (= (dist t2 t4) 1) ; distance between two tables
 
-        ;(= (dist t3 b) 1000) ; distance between two tables
+        (= (dist t3 b) 3) ; distance between two tables
         (= (dist t3 t1) 1) ; distance between two tables
         (= (dist t3 t2) 1) ; distance between two tables
         (= (dist t3 t3) 1) ; distance between two tables
 
-        ;(= (dist t4 b) 1000) ; distance between two tables
+        (= (dist t4 b) 3) ; distance between two tables
         (= (dist t4 t1) 1) ; distance between two tables
         (= (dist t4 t2) 1) ; distance between two tables
         (= (dist t4 t3) 1) ; distance between two tables
@@ -74,11 +80,12 @@
         (= (t_dim t4) 1) ; dimension of the table
 
         (= (holding wr) 0) ; number of drinks holded by the robot
-        (= (holding br) 0) ; number of drinks holded by the robot    
+        (= (holding br) 0) ; number of drinks holded by the robot
+        
     )
 
 	(:goal
-        (and (drink_on_table d1 t4) (drink_on_table d2 t4) (drink_on_table d3 t1) (drink_on_table d4 t1) (clean t3))
+        (and (drink_on_table d1 t1) (biscuit_on_table bis1 t1) (drink_on_table d2 t1) (biscuit_on_table bis2 t1) (drink_on_table d3 t4) (drink_on_table d4 t4) (> (tim_c d3) 0) (> (tim_c d4) 0) (clean t3))
         
     )
 )

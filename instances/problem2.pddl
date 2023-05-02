@@ -1,4 +1,3 @@
-
 ;;Luca Sortino, bauyrzhan zhakanov, Giacomo Lugano (jek.lugano@yahoo.com)
 (define (problem instance_2)
 
@@ -10,6 +9,9 @@
         d2 -drink
         d3 -drink
         d4 -drink
+
+        bis1 -biscuit
+        bis2 -biscuit
 
         ;; general of the assignment
         b -table 
@@ -26,8 +28,15 @@
     (:init
         ;predicates
         (waiter wr) ; T if the robot is a waiter, F if is a barista
-        (hot_drink d1)
-        (hot_drink d2)
+
+        (= (tim_c d1) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d2) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d3) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d4) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+
+        (biscuit_on_table bis1 b) ; T if the biscuit d is on the table t, initially true with t=bar
+        (biscuit_on_table bis2 b) ; T if the biscuit d is on the table t, initially true with t=bar
+
         (bar b) ; T if the table is the bar
         (clean t2) ; T if the table is clean
         (clean t3) ; T if the table is clean
@@ -72,11 +81,11 @@
 
         (= (holding wr) 0) ; number of drinks holded by the robot
         (= (holding br) 0) ; number of drinks holded by the robot
-    
+        
     )
 
 	(:goal
-        (and (drink_on_table d1 t3) (drink_on_table d2 t3) (drink_on_table d3 t3) (drink_on_table d4 t3) (clean t1))
+        (and (drink_on_table d1 t3) (biscuit_on_table bis1 t3) (drink_on_table d2 t3) (biscuit_on_table bis2 t3) (drink_on_table d3 t3) (drink_on_table d4 t3) (> (tim_c d3) 0) (> (tim_c d4) 0) (clean t1))
         
     )
 )

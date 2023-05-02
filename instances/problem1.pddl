@@ -8,6 +8,9 @@
 		d1 -drink
         d2 -drink
 
+        bis1 -biscuit
+        bis2 -biscuit
+
         ;; general of the assignment
         b -table 
         t1 -table
@@ -23,6 +26,12 @@
     (:init
         ;predicates
         (waiter wr) ; T if the robot is a waiter, F if is a barista
+
+        (= (tim_c d1) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+        (= (tim_c d2) 0) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
+
+        (biscuit_on_table bis1 b) ; T if the biscuit d is on the table t, initially true with t=bar
+        (biscuit_on_table bis2 b) ; T if the biscuit d is on the table t, initially true with t=bar
 
         (bar b) ; T if the table is the bar
         (clean t1) ; T if the table is clean
@@ -67,10 +76,11 @@
 
         (= (holding wr) 0) ; number of drinks holded by the robot
         (= (holding br) 0) ; number of drinks holded by the robot
-    
+        
     )
 
 	(:goal
-        (and (drink_on_table d1 t2) (drink_on_table d2 t2) (clean t3) (clean t4))
+        (and (drink_on_table d1 t2) (biscuit_on_table bis1 t2) (drink_on_table d2 t2) (biscuit_on_table bis2 t2) (clean t3) (clean t4))
+        
     )
 )

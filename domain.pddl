@@ -6,6 +6,7 @@
 
     (:types
         drink -object
+        biscuit -object
         robot -object
         table -location
     )
@@ -19,9 +20,13 @@
         (bar ?t -table) ; T if the table is the bar
         (clean ?t -table) ; T if the table is clean
         (drink_on_table ?d -drink ?t -table) ; T if the drink d is on the table t
-        (drink_holded ?d -drink ?r -robot) ; T if the drink d is holded by the robot r gripper
+        (drink_holded ?d -drink ?r -robot) ; T if the drink d is holded by the robot r
         (robot_pos ?r -robot ?t -table) ; robot position, thet table at which the robot is
         (to ?t -table) ; destination table of the action move
+
+        (biscuit_on_table ?bis -biscuit ?t -table) ; T if the biscuit d is on the table t, initially true with t=bar
+        (biscuit_holded ?bis -biscuit ?r -robot) ; T if the biscuit bis is holded by the robo r
+        (biscuit_deliver ?bis -biscuit ?t -table) ; T if the related cold drink was delivered, so we can proceed to deliver the biscuit
     )
 
 
@@ -46,38 +51,15 @@
     )
 
     (:action Drink_Prepare ; initial action
-        :parameters (?d -drink ?r -robot ?t -table)
+        :parameters (?r -robot ?d -drink ?t -table)
         :precondition (and (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
         :effect (and (when (= (tim_c ?d) 10) (and (assign (tim ?r) 0) (drink_n ?d))) (when (= (tim_c ?d) 0) (and (assign (tim ?r) 21) (drink_n ?d)))) 
     )    
     (:event Drink_Prepared ; event to conclude the action
-        :parameters (?d -drink ?r -robot ?t -table)
+        :parameters (?r -robot ?d -drink ?t -table)
         :precondition (and (or (and (= (tim_c ?d) 10) (>= (tim ?r) 10) (<= (tim ?r) 20)) (and (= (tim_c ?d) 0) (>= (tim ?r) 27) (<= (tim ?r) 37))) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
         :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (when (= (tim_c ?d) 10) (assign (tim_c ?d) 8)) (not (drink_n ?d)))
     )
-
-
-    ;(:action Hot_drink_Prepare ; initial action
-    ;    :parameters (?d -drink ?r -robot ?t -table)
-    ;    :precondition (and (= (tim_c ?d) 10) (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
-    ;    :effect (and (assign (tim ?r) 0) (drink_n ?d))
-    ;)    
-    ;(:event Hot_drink_Prepared ; event to conclude the action
-    ;    :parameters (?d -drink ?r -robot ?t -table)
-    ;    :precondition (and (and (>= (tim ?r) 10) (<= (tim ?r) 20))  (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
-    ;    :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (assign (tim_c ?d) 8) (not (drink_n ?d)))
-    ;)
-
-    ;(:action Cold_drink_Prepare ; initial action
-    ;    :parameters (?d -drink ?r -robot ?t -table)
-    ;    :precondition (and (= (tim_c ?d) 0) (not (waiter ?r)) (robot_pos ?r ?t) (bar ?t) (>= (tim ?r) 100))
-    ;    :effect (and (assign (tim ?r) 21) (drink_n ?d))
-    ;)    
-    ;(:event Cold_drink_Prepared ; event to conclude the action
-    ;    :parameters (?d -drink ?r -robot ?t -table)
-    ;    :precondition (and (and (>= (tim ?r) 27) (<= (tim ?r) 37)) (drink_n ?d) (robot_pos ?r ?t) (bar ?t))
-    ;    :effect (and (drink_on_table ?d ?t) (assign (tim ?r) 150) (not (drink_n ?d)))
-    ;)
     
     ; cooling down
     (:process Cooling_down
@@ -98,39 +80,17 @@
         :effect (and (robot_pos ?r ?t2) (not (to ?t2)) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
     )
 
-    ;(:action Move_slow
-    ;    :parameters (?t1 -table ?r -robot ?t2 -table)
-    ;    :precondition (and (waiter ?r) (robot_pos ?r ?t1) (holding_tray ?r) (>= (tim ?r) 100))
-    ;    :effect (and (assign (tim ?r) 38) (to ?t2))
-    ;)  
-    ;(:event Moved_slow
-    ;    :parameters (?t1 -table ?r -robot ?t2 -table)
-    ;    :precondition (and (and (>= (tim ?r) (+ (* (dist ?t1 ?t2) 2) 38)) (<= (tim ?r) (+ (* (dist ?t1 ?t2) 2) 48))) (to ?t2) (robot_pos ?r ?t1))
-    ;    :effect (and (robot_pos ?r ?t2) (not (to ?t2)) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
-    ;)
-
-    ;(:action Move_fast
-    ;    :parameters (?t1 -table ?r -robot ?t2 -table)
-    ;    :precondition (and (waiter ?r) (robot_pos ?r ?t1) (not (holding_tray ?r)) (>= (tim ?r) 100))
-    ;    :effect (and (assign (tim ?r) 53) (to ?t2))
-    ;)  
-    ;(:event Moved_fast
-    ;    :parameters (?t1 -table ?r -robot ?t2 -table)
-    ;    :precondition (and (and (>= (tim ?r) (+ (dist ?t1 ?t2) 53)) (<= (tim ?r) (+ (dist ?t1 ?t2) 63))) (to ?t2) (robot_pos ?r ?t1))
-    ;    :effect (and (robot_pos ?r ?t2) (not (to ?t2)) (not (robot_pos ?r ?t1)) (assign (tim ?r) 150))
-    ;)
-
     ; pick-up, put-down drinks and tray
     (:action Pick_up_drink
-        :parameters (?d -drink ?r -robot ?t -table)
+        :parameters (?r -robot ?d -drink ?t -table)
         :precondition (and (waiter ?r) (robot_pos ?r ?t) (or (and (not (holding_tray ?r)) (= (holding ?r ) 0)) (and (holding_tray ?r) (< (holding ?r) 3))) (drink_on_table ?d ?t) (>= (tim ?r) 100))
         :effect (and (increase (holding ?r) 1) (drink_holded ?d ?r) (not (drink_on_table ?d ?t)))
     ) 
     
     (:action Put_down_drink
-        :parameters (?r -robot ?t -table ?d -drink)
+        :parameters (?r -robot ?d -drink ?t -table ?bis -biscuit)
         :precondition (and (waiter ?r) (robot_pos ?r ?t) (drink_holded ?d ?r) (>= (tim ?r) 100))
-        :effect (and (decrease (holding ?r) 1) (not (drink_holded ?d ?r)) (drink_on_table ?d ?t) (when (and (> (tim_c ?d) 0) (not (bar ?t))) (assign (tim_c ?d) 10)))
+        :effect (and (decrease (holding ?r) 1) (not (drink_holded ?d ?r)) (drink_on_table ?d ?t) (when (and (> (tim_c ?d) 0) (not (bar ?t))) (assign (tim_c ?d) 10)) (when (and (<= (tim_c ?d) 0) (not (bar ?t))) (biscuit_deliver ?bis ?t)))
     )
     
     (:action Pick_up_tray
@@ -143,6 +103,20 @@
         :parameters (?r -robot ?t -table)
         :precondition (and (waiter ?r) (robot_pos ?r ?t) (bar ?t) (holding_tray ?r) (= (holding ?r) 0) (>= (tim ?r) 100))
         :effect (not (holding_tray ?r))
+    )
+
+    ;; Pick up a biscuit from the bar counter
+    (:action Pick_up_biscuit
+        :parameters (?r -robot ?bis -biscuit ?t -table ?t1 -table)
+        :precondition (and (waiter ?r) (robot_pos ?r ?t) (bar ?t) (or (and (not (holding_tray ?r)) (= (holding ?r) 0)) (and (holding_tray ?r) (< (holding ?r) 3))) (>= (tim ?r) 100)
+            (biscuit_deliver ?bis ?t1))
+        :effect (and (increase (holding ?r) 1) (biscuit_holded ?bis ?r))
+    )
+
+    (:action Put_down_biscuit
+        :parameters (?r -robot ?bis -biscuit ?t -table)
+        :precondition (and (waiter ?r) (robot_pos ?r ?t) (biscuit_holded ?bis ?r) (biscuit_deliver ?bis ?t) (>= (tim ?r) 100))
+        :effect (and (decrease (holding ?r) 1) (not (biscuit_holded ?bis ?r)) (biscuit_on_table ?bis ?t) (not (biscuit_deliver ?bis ?t)))
     )
 
     ; cleaning
