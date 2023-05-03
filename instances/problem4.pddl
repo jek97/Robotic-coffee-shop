@@ -44,15 +44,19 @@
         (= (tim_c d7) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
         (= (tim_c d8) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
 
+        ; since the consumption of all the drink of a given table is a goal dependent condition we should assign manually in the init the variable tim_t for each table as 4 + the number of drinks + the number of biscuits for each table (except the bar) and zero for tyhe tables that doesn't have any customer on:
+        (= (tim_t b) 0) ; valeu of the timer for the consumption of all the drinks at a given table
+        (= (tim_t t1) 8) ; valeu of the timer for the consumption of all the drinks at a given table
+        (= (tim_t t2) 0) ; valeu of the timer for the consumption of all the drinks at a given table
+        (= (tim_t t3) 8) ; valeu of the timer for the consumption of all the drinks at a given table
+        (= (tim_t t4) 8) ; valeu of the timer for the consumption of all the drinks at a given table
+
         (biscuit_on_table bis1 b) ; T if the biscuit d is on the table t, initially true with t=bar
         (biscuit_on_table bis2 b) ; T if the biscuit d is on the table t, initially true with t=bar
         (biscuit_on_table bis3 b) ; T if the biscuit d is on the table t, initially true with t=bar
         (biscuit_on_table bis4 b) ; T if the biscuit d is on the table t, initially true with t=bar
 
         (bar b) ; T if the table is the bar
-        (clean t1) ; T if the table is clean
-        (clean t2) ; T if the table is clean
-        (clean t3) ; T if the table is clean
         
         (robot_pos wr b) ; robot position, thet table at which the robot is
         (robot_pos br b) ; robot position, thet table at which the robot is
@@ -97,7 +101,6 @@
     )
 
 	(:goal
-        (and (drink_on_table d1 t4) (biscuit_on_table bis1 t4) (drink_on_table d2 t4) (biscuit_on_table bis2 t4) (drink_on_table d3 t1) (biscuit_on_table bis3 t1) (drink_on_table d4 t1) (biscuit_on_table bis4 t4) (drink_on_table d5 t3) (drink_on_table d6 t3) (drink_on_table d7 t3) (drink_on_table d8 t3) (> (tim_c d5) 0) (> (tim_c d6) 0) (> (tim_c d7) 0) (> (tim_c d8) 0)  (clean t4))
-        
+        (and (drink_on_table d1 t4) (biscuit_on_table bis1 t4) (drink_on_table d2 t4) (biscuit_on_table bis2 t4) (drink_on_table d3 t1) (biscuit_on_table bis3 t1) (drink_on_table d4 t1) (biscuit_on_table bis4 t1) (drink_on_table d5 t3) (drink_on_table d6 t3) (drink_on_table d7 t3) (drink_on_table d8 t3) (> (tim_c d5) 0) (> (tim_c d6) 0) (> (tim_c d7) 0) (> (tim_c d8) 0)  (clean t1) (clean t2) (clean t3) (clean t4))
     )
 )
