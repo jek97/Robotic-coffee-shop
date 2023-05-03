@@ -84,7 +84,7 @@
     ; pick-up, put-down drinks and tray
     (:process Consuming_timer
         :parameters (?t -table)
-        :precondition (and (<= (tim_t ?t) 4) (> (tim_t ?t) 0))
+        :precondition (and (<= (tim_t ?t) 8) (> (tim_t ?t) 0))
         :effect (decrease (tim_t ?t) (* #t 1.0))
     )
 

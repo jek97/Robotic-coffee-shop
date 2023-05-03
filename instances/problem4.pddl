@@ -44,12 +44,12 @@
         (= (tim_c d7) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
         (= (tim_c d8) 10) ; temperature of the drink, the same for hot and cold drink, note initially assign to 0 for cold drinks and 10 for hot ones
 
-        ; since the consumption of all the drink of a given table is a goal dependent condition we should assign manually in the init the variable tim_t for each table as 4 + the number of drinks + the number of biscuits for each table (except the bar) and zero for tyhe tables that doesn't have any customer on:
+        ; since the consumption of all the drink of a given table is a goal dependent condition we should assign manually in the init the variable tim_t for each table as 8 + the number of drinks + the number of biscuits for each table (except the bar) and zero for tyhe tables that doesn't have any customer on:
         (= (tim_t b) 0) ; valeu of the timer for the consumption of all the drinks at a given table
-        (= (tim_t t1) 8) ; valeu of the timer for the consumption of all the drinks at a given table
+        (= (tim_t t1) 12) ; valeu of the timer for the consumption of all the drinks at a given table
         (= (tim_t t2) 0) ; valeu of the timer for the consumption of all the drinks at a given table
-        (= (tim_t t3) 8) ; valeu of the timer for the consumption of all the drinks at a given table
-        (= (tim_t t4) 8) ; valeu of the timer for the consumption of all the drinks at a given table
+        (= (tim_t t3) 12) ; valeu of the timer for the consumption of all the drinks at a given table
+        (= (tim_t t4) 12) ; valeu of the timer for the consumption of all the drinks at a given table
 
         (biscuit_on_table bis1 b) ; T if the biscuit d is on the table t, initially true with t=bar
         (biscuit_on_table bis2 b) ; T if the biscuit d is on the table t, initially true with t=bar
