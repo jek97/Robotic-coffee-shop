@@ -1,0 +1,104 @@
+0: (Move b wr t1)
+1.0: (Moved b wr t1)
+1.0: (Clean wr t1)
+4.0: (Cleaned wr t1)
+4.0: (Move t1 wr b)
+5.0: (Moved t1 wr b)
+5.0: (Clean wr b)
+13.0: (Drink_Prepare br d1 b)
+18.0: (Drink_Prepared br d1 b)
+38.0: (Pick_up_drink wr d1 b)
+38.0: (Move b wr t3)
+40.0: (Moved b wr t3)
+40.0: (Put_down_drink wr d1 t3 bis2)
+40.0: (Pick_up_drink wr d1 t3)
+40.0: (Put_down_drink wr d1 t3 bis1)
+40.0: (Move t3 wr b)
+42.0: (Moved t3 wr b)
+42.0: (Pick_up_biscuit wr bis2 b t3)
+42.0: (Move b wr b)
+42.0: (Clean wr b)
+75.0: (Pick_up_biscuit wr bis1 b t3)
+75.0: (Move b wr t3)
+77.0: (Moved b wr t3)
+77.0: (Put_down_biscuit wr bis1 t3)
+77.0: (Put_down_biscuit wr bis2 t3)
+77.0: (Drink_Prepare br d2 b)
+80.0: (Move t3 wr b)
+82.0: (Drink_Prepared br d2 b)
+82.0: (Moved t3 wr b)
+82.0: (Pick_up_drink wr d2 b)
+82.0: (Move b wr b)
+82.0: (Clean wr b)
+115.0: (Move b wr t3)
+117.0: (Moved b wr t3)
+117.0: (Put_down_drink wr d2 t3 bis2)
+117.0: (Move t3 wr t4)
+119.0: (Moved t3 wr b)
+119.0: (Move b wr t3)
+120.0: (Drink_Prepare br d4 b)
+121.0: (Moved b wr t4)
+126.0: (Move t4 wr b)
+126.0: (Moved t4 wr t3)
+127.0: (Move t3 wr b)
+129.0: (Drink_Prepared br d4 b)
+129.0: (Moved t3 wr b)
+129.0: (Pick_up_drink wr d4 b)
+129.0: (Move b wr t3)
+129.0: (Drink_Prepare br d1 b)
+131.0: (Moved b wr t3)
+131.0: (Put_down_drink wr d4 t3 bis1)
+131.0: (Move t3 wr b)
+133.0: (Moved t3 wr b)
+133.0: (Move b wr b)
+133.0: (Clean wr b)
+134.0: (Drink_Prepared br d1 b)
+166.0: (Move b wr t3)
+167.0: (Drink_Prepare br d3 b)
+168.0: (Moved b wr t3)
+176.0: (Drink_Prepared br d3 b)
+177.0: (Move t3 wr t4)
+179.0: (Moved t3 wr b)
+179.0: (Pick_up_drink wr d3 b)
+179.0: (Move b wr t3)
+181.0: (Moved b wr t4)
+181.0: (Move t4 wr b)
+181.0: (Moved t4 wr t3)
+182.0: (Put_down_drink wr d3 t3 bis2)
+182.0: @PlanEND 
+
+command to launch it: java -jar ../ENHSP-Public-enhsp-20/enhsp-dist/enhsp.jar -o domain.pddl -f ./instances/problem2.pddl -planner sat-hmrph -tolerance 1 -pe -sp ./output/problem2.txt
+
+additional information:
+Domain parsed
+Problem parsed
+Grounding..
+Grounding Time: 80
+Aibr Preprocessing
+|F|:70
+|X|:7
+Aibr Preprocessing
+|A|:113
+|P|:6
+|E|:54
+Delta time heuristic model:1.0
+Delta time planning model:1.0
+Delta time search-execution model:1.0
+Delta time validation model:1
+H1 Setup Time (msec): 35
+Wrong setting for break-ties. Arbitrary tie breaking
+Setting horizon to:NaN
+Helpful Action Pruning Activated
+Running Greedy Best First Search
+
+Plan-Length:249
+Elapsed Time: 182.0
+Metric (Search):226.0
+Planning Time (msec): 48805
+Heuristic Time (msec): 45893
+Search Time (msec): 48240
+Expanded Nodes:139689
+States Evaluated:294620
+Fixed constraint violations during search (zero-crossing):0
+Number of Dead-Ends detected:3841
+Number of Duplicates detected:187082

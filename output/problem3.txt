@@ -1,0 +1,110 @@
+0: (Move b wr t3)
+2.0: (Moved b wr t3)
+2.0: (Clean wr t3)
+9.0: (Cleaned wr t3)
+9.0: (Move t3 wr b)
+11.0: (Moved t3 wr b)
+11.0: (Move b wr b)
+11.0: (Clean wr b)
+44.0: (Move b wr t1)
+45.0: (Moved b wr t1)
+45.0: (Move t1 wr t3)
+45.0: (Drink_Prepare br d2 b)
+45.0: (Moved t1 wr t3)
+47.0: (Move t3 wr t4)
+49.0: (Moved t3 wr b)
+50.0: (Drink_Prepared br d2 b)
+50.0: (Pick_up_drink wr d2 b)
+50.0: (Move b wr t1)
+51.0: (Moved b wr t1)
+51.0: (Put_down_drink wr d2 t1 bis2)
+51.0: (Pick_up_drink wr d2 t1)
+51.0: (Put_down_drink wr d2 t1 bis1)
+51.0: (Move t1 wr b)
+51.0: (Drink_Prepare br d1 b)
+51.0: (Moved t1 wr t4)
+56.0: (Drink_Prepared br d1 b)
+56.0: (Move t4 wr b)
+58.0: (Moved t4 wr b)
+58.0: (Pick_up_biscuit wr bis1 b t1)
+58.0: (Move b wr t1)
+59.0: (Moved b wr t1)
+59.0: (Put_down_biscuit wr bis1 t1)
+59.0: (Move t1 wr b)
+60.0: (Moved t1 wr b)
+60.0: (Pick_up_drink wr d1 b)
+60.0: (Move b wr t1)
+61.0: (Moved b wr t1)
+61.0: (Put_down_drink wr d1 t1 bis1)
+61.0: (Move t1 wr b)
+62.0: (Moved t1 wr b)
+62.0: (Pick_up_biscuit wr bis2 b t1)
+62.0: (Move b wr b)
+62.0: (Clean wr b)
+95.0: (Move b wr t1)
+96.0: (Moved b wr t1)
+96.0: (Put_down_biscuit wr bis2 t1)
+96.0: (Move t1 wr t4)
+96.0: (Drink_Prepare br d2 b)
+96.0: (Moved t1 wr t4)
+99.0: (Move t4 wr t4)
+101.0: (Drink_Prepared br d2 b)
+101.0: (Moved t4 wr b)
+101.0: (Drink_Prepare br d3 b)
+110.0: (Drink_Prepared br d3 b)
+110.0: (Pick_up_drink wr d3 b)
+110.0: (Drink_Prepare br d1 b)
+114.0: (Move b wr t2)
+114.0: (Clean wr b)
+114.0: (Moved b wr t4)
+115.0: (Drink_Prepared br d1 b)
+115.0: (Put_down_drink wr d3 t4 bis1)
+115.0: (Drink_Prepare br d4 b)
+124.0: (Drink_Prepared br d4 b)
+124.0: (Move t4 wr t4)
+124.0: (Moved t4 wr t2)
+125.0: (Move t2 wr b)
+125.0: (Moved t2 wr t4)
+127.0: (Move t4 wr t4)
+129.0: (Moved t4 wr b)
+129.0: (Pick_up_drink wr d4 b)
+129.0: (Clean wr b)
+129.0: (Moved b wr t4)
+130.0: (Put_down_drink wr d4 t4 bis2)
+130.0: @PlanEND 
+
+command to launch it: java -jar ../ENHSP-Public-enhsp-20/enhsp-dist/enhsp.jar -o domain.pddl -f ./instances/problem3.pddl -planner sat-hmrph -tolerance 1 -pe -sp ./output/problem3.txt
+
+additional inofrmation:
+Domain parsed
+Problem parsed
+Grounding..
+Grounding Time: 70
+Aibr Preprocessing
+|F|:70
+|X|:7
+Aibr Preprocessing
+|A|:113
+|P|:6
+|E|:54
+Delta time heuristic model:1.0
+Delta time planning model:1.0
+Delta time search-execution model:1.0
+Delta time validation model:1
+H1 Setup Time (msec): 26
+Wrong setting for break-ties. Arbitrary tie breaking
+Setting horizon to:NaN
+Helpful Action Pruning Activated
+Running Greedy Best First Search
+
+Plan-Length:203
+Elapsed Time: 130.0
+Metric (Search):176.0
+Planning Time (msec): 31052
+Heuristic Time (msec): 28716
+Search Time (msec): 30549
+Expanded Nodes:98749
+States Evaluated:191859
+Fixed constraint violations during search (zero-crossing):0
+Number of Dead-Ends detected:1455
+Number of Duplicates detected:134353

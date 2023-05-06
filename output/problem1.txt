@@ -1,0 +1,93 @@
+0: (Move b wr t4)
+2.0: (Moved b wr t4)
+2.0: (Move t4 wr t4)
+2.0: (Clean wr t4)
+5.0: (Cleaned wr t4)
+5.0: (Move t4 wr b)
+7.0: (Moved t4 wr b)
+7.0: (Move b wr b)
+9.0: (Moved b wr t4)
+9.0: (Move t4 wr b)
+11.0: (Moved t4 wr b)
+11.0: (Move b wr b)
+11.0: (Clean wr b)
+20.0: (Drink_Prepare br d1 b)
+25.0: (Drink_Prepared br d1 b)
+40.0: (Drink_Prepare br d2 b)
+44.0: (Move b wr t3)
+45.0: (Drink_Prepared br d2 b)
+45.0: (Drink_Prepare br d2 b)
+46.0: (Moved b wr t3)
+46.0: (Move t3 wr t2)
+46.0: (Clean wr t3)
+46.0: (Moved t3 wr b)
+47.0: (Pick_up_drink wr d1 b)
+47.0: (Move b wr t3)
+48.0: (Moved b wr t2)
+48.0: (Put_down_drink wr d1 t2 bis1)
+48.0: (Pick_up_drink wr d1 t2)
+48.0: (Put_down_drink wr d1 t2 bis2)
+48.0: (Move t2 wr b)
+48.0: (Moved t2 wr t3)
+49.0: (Move t3 wr t2)
+49.0: (Clean wr t3)
+49.0: (Moved t3 wr b)
+50.0: (Drink_Prepared br d2 b)
+50.0: (Pick_up_biscuit wr bis1 b t2)
+50.0: (Drink_Prepare br d2 b)
+50.0: (Move b wr t3)
+51.0: (Moved b wr t2)
+51.0: (Put_down_biscuit wr bis1 t2)
+51.0: (Move t2 wr b)
+51.0: (Moved t2 wr t3)
+52.0: (Move t3 wr t2)
+52.0: (Clean wr t3)
+52.0: (Moved t3 wr b)
+53.0: (Pick_up_drink wr d2 b)
+53.0: (Pick_up_biscuit wr bis2 b t2)
+53.0: (Move b wr t3)
+54.0: (Moved b wr t2)
+54.0: (Put_down_drink wr d2 t2 bis2)
+54.0: (Put_down_biscuit wr bis2 t2)
+54.0: (Move t2 wr t3)
+54.0: (Moved t2 wr t3)
+55.0: (Drink_Prepared br d2 b)
+55.0: (Clean wr t3)
+62.0: (Cleaned wr t3)
+62.0: @PlanEND 
+
+command to launch it: java -jar ../ENHSP-Public-enhsp-20/enhsp-dist/enhsp.jar -o domain.pddl -f ./instances/problem1.pddl -planner sat-hmrph -tolerance 1 -pe -sp ./output/problem1.txt
+
+additional information:
+Domain parsed
+Problem parsed
+Grounding..
+Grounding Time: 68
+Aibr Preprocessing
+|F|:56
+|X|:5
+Aibr Preprocessing
+|A|:82
+|P|:4
+|E|:52
+Delta time heuristic model:1.0
+Delta time planning model:1.0
+Delta time search-execution model:1.0
+Delta time validation model:1
+H1 Setup Time (msec): 17
+Wrong setting for break-ties. Arbitrary tie breaking
+Setting horizon to:NaN
+Helpful Action Pruning Activated
+Running Greedy Best First Search
+
+Plan-Length:118
+Elapsed Time: 62.0
+Metric (Search):98.0
+Planning Time (msec): 984
+Heuristic Time (msec): 443
+Search Time (msec): 531
+Expanded Nodes:739
+States Evaluated:1771
+Fixed constraint violations during search (zero-crossing):0
+Number of Dead-Ends detected:3
+Number of Duplicates detected:740
