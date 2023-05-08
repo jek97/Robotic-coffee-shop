@@ -1,5 +1,4 @@
 # Robotic coffee shop menaged by an Artificial Intelligence #
-=============================================================
 This short report concerns the first Artificial Intelligence II assignment with the purpose of modelling a robotic coffee shop scenario in which customers can order two different kind of drinks, cold and warm, served by two robots, one is a bartender and the other one is a waiter. The bartender is responsible for preparing drinks, while the waiter serves customers and cleans tables. There are four main problems to solve with different number of customers and kind of drinks and four optional extensions that include another waiter or serving also biscuits together with cold drinks.The coffee shop layout is illustrated in the Figure:
 ![coffee shop map](./output/map.jpeg "map of the coffe shop")
 Just to focus on the syntax about PDDL+ we took inspiration from the website [planning guide](https://planning.wiki/)
@@ -190,3 +189,5 @@ Moreover this action trigger the predicates (biscuits deliver ?bis ?t) used to s
     :effect (and (clean ?t) (assign (tim ?r) 150))
 )  
 ```
+### Contributors ###
+Giacomo Lugano, Luca Sortino, Bauyrzhan Zhakanov
