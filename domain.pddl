@@ -1,4 +1,4 @@
-;Luca Sortino, bauyrzhan zhakanov, Giacomo Lugano (jek.lugano@yahoo.com)
+;Luca Sortino, bauka zhakanov, Giacomo Lugano (jek.lugano@yahoo.com)
 ; command to launch the planner: java -jar ../ENHSP-Public-enhsp-20/enhsp-dist/enhsp.jar -o domain.pddl -f ./instances/problem1.pddl
 (define (domain coffee_robot)
 

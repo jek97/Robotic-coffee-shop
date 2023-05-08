@@ -1,4 +1,4 @@
-;;Luca Sortino, bauyrzhan zhakanov, Giacomo Lugano (jek.lugano@yahoo.com)
+;;Luca Sortino, Bauka Zhakanov, Giacomo Lugano (jek.lugano@yahoo.com)
 (define (problem instance_3)
 
 (:domain coffee_robot)

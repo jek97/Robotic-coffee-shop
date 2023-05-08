@@ -192,4 +192,4 @@ Moreover this action trigger the predicates (biscuits deliver ?bis ?t) used to s
 )  
 ```
 ### Contributors ###
-Giacomo Lugano, Luca Sortino, Bauyrzhan Zhakanov
+Giacomo Lugano, Luca Sortino, Bauka Zhakanov
