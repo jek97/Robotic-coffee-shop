@@ -36,6 +36,7 @@ In particular:
 * 38 < t <= 42 Move Slow
 * 53 < t <= 55 Move Fast
 * 66 < t <= 74 Clean
+
 All the conditions are expressed in time units of the planner (considering the maximum time of each action, the time unit we are considering is equal to 2 time units of the planner).
 Moreover the timer works also as a flag to describe if the robot is busy in performing a durative action ((tim ?r)<100) or it's free ((tim ?r) >100).
 
